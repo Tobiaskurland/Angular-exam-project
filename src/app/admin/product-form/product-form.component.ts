@@ -3,6 +3,9 @@ import { CategoryService } from '../../category.service';
 import { ProductService } from '../../product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/take';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PriceValidators } from './price.validators';
+
 
 
 @Component({
@@ -15,6 +18,13 @@ export class ProductFormComponent implements OnInit {
   product = {};
   id;
 
+  form = new FormGroup({
+    title: new FormControl('', Validators.required),
+    price: new FormControl('', [Validators.required, Validators.min(0)]),
+    category: new FormControl('', Validators.required),
+    imageUrl: new FormControl('', [Validators.required, PriceValidators.cannotContainSpace])
+  });
+
   constructor(
     private route: ActivatedRoute,
     private categoryService: CategoryService, 
@@ -26,9 +36,9 @@ export class ProductFormComponent implements OnInit {
     if (this.id) this.productService.get(this.id).take(1).subscribe(p => this.product = p);
    }
 
-   save(product){
-    if (this.id) this.productService.update(this.id, product);
-    else this.productService.create(product);
+   save(){
+    if (this.id) this.productService.update(this.id, this.form.value);
+    else this.productService.create(this.form.value);
 
      this.router.navigate(['/admin/products']);
    }
