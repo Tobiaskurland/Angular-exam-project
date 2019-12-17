@@ -11,7 +11,7 @@
       </li>
       <ng-template #anonymousUser>
         <li class="nav-item">
-        <a class="nav-link" routerLink="/login">Login</a>
+        <a id="home-login" class="nav-link" routerLink="/login">Login</a>
       </li>
       </ng-template>
       <li ngbDropdown *ngIf="appUser; else anonymousUser" class="nav-item dropdown">

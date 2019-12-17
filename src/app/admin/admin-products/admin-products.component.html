@@ -1,6 +1,6 @@
 
 <p>
-    <a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
+    <a routerLink="/admin/products/new" id="new-product" class="btn btn-primary">New Product</a>
   </p>
   <p>
     <input 
@@ -10,6 +10,7 @@
   </p>
   
   <data-table
+    id="items-id"
     [items]="items"
     [itemCount]="itemCount"
     (reload)="reloadItems($event)">
@@ -36,7 +37,7 @@
       [property]="'$key'"  
     >
       <ng-template #dataTableCell let-item="item">
-        <a [routerLink]="['/admin/products/', item.$key]">Edit</a>
+        <a id="edit-id" [routerLink]="['/admin/products/', item.$key]">Edit</a>
       </ng-template>
     </data-table-column>
   

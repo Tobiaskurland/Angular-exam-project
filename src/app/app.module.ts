@@ -68,10 +68,15 @@ import { ProductCardComponent } from './product-card/product-card.component';
       { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuard] },
       { path: 'my-orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
 
-      { path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      { path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] }
+      { path: 'admin/products/new', component: ProductFormComponent},
+      { path: 'admin/products/:id', component: ProductFormComponent},
+      { path: 'admin/products', component: AdminProductsComponent},
+      { path: 'admin/orders', component: AdminOrdersComponent}
+
+      //{ path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      //{ path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      //{ path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      //{ path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] }
     ])    
   ],
   providers: [
