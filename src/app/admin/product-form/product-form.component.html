@@ -48,10 +48,15 @@
         </div>
       </div>
 
-      <button id="save" class="btn btn-primary">Save</button>
+      <button (click)="increment()" id="save" class="btn btn-primary">Save</button>
 
       <button id="delete" type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+
+      
     </form>
+
+    <p>Counter: {{count | async }}</p>
+      <button (click)="increment()">Increment</button>
 
   </div>
 

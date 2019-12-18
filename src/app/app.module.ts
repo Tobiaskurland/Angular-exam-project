@@ -1,6 +1,6 @@
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { AngularFireModule } from 'angularfire2'; 
 import { AngularFireDatabaseModule } from 'angularfire2/database'; 
 import { AngularFireAuthModule } from 'angularfire2/auth'; 
@@ -9,6 +9,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
 import { DataTableModule } from 'angular-4-data-table';
+import { NgRedux, NgReduxModule, DevToolsExtension } from 'ng2-redux';
+import { fromJS, Map } from 'immutable';
+
 
 
 import { AppComponent } from './app.component';
@@ -31,6 +34,7 @@ import { CategoryService } from './category.service';
 import { ProductService } from './product.service';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCardComponent } from './product-card/product-card.component';
+import { IAppState, rootReducer, INITIAL_STATE } from './store';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
     ProductCardComponent
   ],
   imports: [
+    NgReduxModule,
     ReactiveFormsModule,
     BrowserModule,
     FormsModule,
@@ -69,15 +74,15 @@ import { ProductCardComponent } from './product-card/product-card.component';
       { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuard] },
       { path: 'my-orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
 
-      { path: 'admin/products/new', component: ProductFormComponent},
-      { path: 'admin/products/:id', component: ProductFormComponent},
-      { path: 'admin/products', component: AdminProductsComponent},
-      { path: 'admin/orders', component: AdminOrdersComponent}
+      //{ path: 'admin/products/new', component: ProductFormComponent},
+      //{ path: 'admin/products/:id', component: ProductFormComponent},
+      //{ path: 'admin/products', component: AdminProductsComponent},
+      //{ path: 'admin/orders', component: AdminOrdersComponent}
 
-      //{ path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      //{ path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      //{ path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      //{ path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] }
+      { path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] }
     ])    
   ],
   providers: [
@@ -90,4 +95,24 @@ import { ProductCardComponent } from './product-card/product-card.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+// REDUX VERSION 2
+/**
+export class AppModule {
+  constructor(ngRedux: NgRedux<Map<string, any>>){
+    //var enhancers = isDevMode() ? [devTools.enhancer()] : [];
+   // ngRedux.configureStore(rootReducer, fromJS(INITIAL_STATE), [], enhancers);
+    ngRedux.configureStore(rootReducer, fromJS(INITIAL_STATE));
+
+  }
+
+ }
+ */
+ export class AppModule {
+  constructor(ngRedux: NgRedux<IAppState>){
+    ngRedux.configureStore(rootReducer, fromJS(INITIAL_STATE));
+
+  }
+
+ }
+

@@ -3,6 +3,10 @@ import { ProductService } from '../../product.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Product } from '../../models/product';
 import { DataTableResource } from 'angular-4-data-table';
+import { NgRedux, select } from 'ng2-redux';
+import { IAppState } from '../../store';
+import { INCREMENT } from '../../actions';
+import { Map } from 'immutable';
 
 
 @Component({
@@ -11,13 +15,22 @@ import { DataTableResource } from 'angular-4-data-table';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
+  //REDUX VERSION 2
+  //@select(s => s.get('counter')) count;
+  @select('counter') count;
   products: Product[];
   subscription: Subscription;
   tableResource: DataTableResource<Product>;
   items: Product[] = [];
   itemCount: number;
 
-  constructor(private productService: ProductService) { 
+  constructor(private productService: ProductService, 
+    // REDUX VERSION 2
+    //private ngRedux: NgRedux<Map<string, any>>
+    ngRedux: NgRedux<IAppState>
+
+    ) 
+    { 
     this.subscription = this.productService.getAll()
     .subscribe(products => {
       this.products = products;
